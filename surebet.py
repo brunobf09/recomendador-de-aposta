@@ -3,14 +3,14 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 from time import sleep
 import pandas as pd
-import os
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--no-sandbox")
-chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+driver =webdriver.Chrome('chromedriver',chrome_options=chrome_options)
+
+# driver = webdriver.Chrome('chromedriver.exe')
 driver.get('https://www.betfair.com/exchange/plus/pt/futebol/brasil-s%C3%A9rie-a-apostas-13')
 sleep(20)
 

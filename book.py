@@ -9,7 +9,7 @@ times ={
   'Bahia':'Bahia',
   'Vasco':'Vasco',
   'Portuguesa':'Portuguesa',
-  'Chapecoense-SC':'Chapecoense-SC',
+  'Chapecoense-SC':'Chapecoense',
   'Ponte Preta':'Ponte Preta',
   'Fortaleza':'Fortaleza',
   'Figueirense':'Figueirense',

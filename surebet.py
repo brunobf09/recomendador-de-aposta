@@ -12,11 +12,17 @@ driver =webdriver.Chrome('chromedriver',chrome_options=chrome_options)
 
 
 driver.get('https://www.betfair.com/exchange/plus/pt/futebol/brasil-s%C3%A9rie-a-apostas-13')
+<<<<<<< HEAD
+
+while (len(driver.find_elements(By.ID,"onetrust-accept-btn-handler"))) < 1:
+    sleep(0.5)
+=======
+>>>>>>> 9174d1fe4c34c79ba08366b94ba808d11a2e2cb5
 
 while (len(driver.find_elements(By.ID,"onetrust-accept-btn-handler"))) < 1:
     sleep(0.5)
 
-accept = driver.find_element(By.ID,"onetrust-accept-btn-handler")
+accept = driver.find_element(By.ID,"onetrust-accept-btn-handler")    
 accept.click()
 sleep(1)
 

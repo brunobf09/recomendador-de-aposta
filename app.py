@@ -31,7 +31,7 @@ def bet():
             aposta.append(None)
 
     jogos['Aposta'] = aposta
-    jogos['Previsão'] = jogos['Previsão'].map({0:'CASA GANHA',1:'CASA NÃO GANHA'})
+    jogos['Previsão'] = jogos['Previsão'].map({0:'H',1:'NoH'})
 
     return jogos.to_html()
 

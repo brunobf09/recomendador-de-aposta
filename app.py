@@ -19,7 +19,7 @@ def bet():
 
     df = pd.DataFrame(p,columns=['Previsão','Odd_Modelo'])
     jogos = jogos.join(df, rsuffix='Odd_Betfair')
-    jogos = jogos[['Home','Away','Previsão','Odd_Modelo','Odd_Betfair']]
+    jogos = jogos[['Home','Away','Previsão','Odd_Betfair']]
 
     aposta = []
     for x, y in zip(jogos.Odd_Betfair, jogos['Previsão']):
@@ -31,7 +31,7 @@ def bet():
             aposta.append(None)
 
     jogos['Aposta'] = aposta
-    jogos['Previsão'] = jogos['Previsão'].map({0:'H',1:'A'})
+    jogos['Previsão'] = jogos['Previsão'].map({0:'CASA GANHA',1:'CASA NÃO GANHA'})
 
     return jogos.to_html()
 

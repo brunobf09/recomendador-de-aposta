@@ -28,7 +28,7 @@ class Columns(BaseEstimator, TransformerMixin):
 
 pipe = Pipeline([
     ("features", FeatureUnion([
-        ('categorical', make_pipeline(Columns(names=categorical), OneHotEncoder(sparse=False))),
+        ('categorical', make_pipeline(Columns(names=categorical), OneHotEncoder(sparse=True))),
         ('numeric', make_pipeline(Columns(names=numeric), StandardScaler()))
 
     ]))

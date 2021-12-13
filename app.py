@@ -1,5 +1,4 @@
 from flask import Flask
-#import surebet
 from book import predict
 import pandas as pd
 
@@ -8,7 +7,7 @@ app = Flask(__name__)
 def bet():
     jogos = pd.read_json('betfair')
 
-    jogos['Previsão'] , na = predict(jogos,'model_log.pkl.z')
+    jogos['Previsão'] = predict(jogos,'model_log.pkl.z')
     jogos = jogos[['HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
 
     aposta = []
@@ -21,9 +20,7 @@ def bet():
             aposta.append('-')
 
     jogos['Aposta'] = aposta
-    na['Aposta'] = 'Name Error'
     jogos['Previsão'] = jogos['Previsão'].map({0:'H',1:'NoH'})
-    jogos = pd.concat([jogos,na],ignore_index=True)
 
     return jogos.to_html()
 

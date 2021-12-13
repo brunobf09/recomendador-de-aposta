@@ -3,35 +3,27 @@ import surebet
 from book import predict
 import pandas as pd
 
-
 app = Flask(__name__)
-
 
 def bet():
     jogos = pd.read_json('betfair')
-    p = []
 
-    for i in range(jogos.shape[0]):
-        try:
-            p.append(predict(jogos.Home[i], jogos.Away[i], 'model_log.pkl.z'))
-        except:
-            p.append(None)
-
-    df = pd.DataFrame(p,columns=['Previsão','Odd_Modelo'])
-    jogos = jogos.join(df, rsuffix='Odd_Betfair')
-    jogos = jogos[['Home','Away','Previsão','Odd_Betfair']]
+    jogos['Previsão'] , na = predict(jogos,'model_log.pkl.z')
+    jogos = jogos[['HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
 
     aposta = []
     for x, y in zip(jogos.Odd_Betfair, jogos['Previsão']):
         if y == 0 and x > 2:
-            aposta.append('Back')
+            aposta.append('-')
         elif y == 1 and x < 2:
             aposta.append('Lay')
         else:
             aposta.append('-')
 
     jogos['Aposta'] = aposta
-    jogos['Previsão'] = jogos['Previsão'].map({0:'NoH',1:'H'})
+    na['Aposta'] = 'Name Error'
+    jogos['Previsão'] = jogos['Previsão'].map({0:'H',1:'NoH'})
+    jogos = pd.concat([jogos,na],ignore_index=True)
 
     return jogos.to_html()
 

@@ -8,7 +8,7 @@ chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
-driver =webdriver.Chrome('chromedriver')
+driver =webdriver.Chrome('chromedriver', chrome_options=chrome_options)
 
 league = open('league','r').readline().split(',')
 
@@ -44,8 +44,8 @@ home = teams[::2]
 away = teams[1::2]
 #
 #
-betfair = {'Home':home,
-           'Away':away,
+betfair = {'HomeTeam':home,
+           'AwayTeam':away,
            'Odd_Betfair':odd}
 #
 #

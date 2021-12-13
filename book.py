@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 import joblib
 
 
-book = pd.read_csv('/content/Europa.csv')
+book = pd.read_csv('Europa.csv')
 df = pd.read_excel('https://www.football-data.co.uk/mmz4281/2122/all-euro-data-2021-2022.xlsx',sheet_name=None)
 df = pd.concat(df,ignore_index=True)
 df = df[['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR','B365H', 'B365D', 'B365A']]
@@ -34,16 +34,23 @@ pipe = Pipeline([
     ]))
 ])
 
-def predict(home, away, modelo):
-    mybook = pd.concat([data, pd.DataFrame([[home, away]], columns=['HomeTeam', 'AwayTeam'])], ignore_index=True)
-    mybook.f_2[mybook.shape[0]-1] = mybook[mybook.HomeTeam == home].FTHG.mean()**2
+
+def predict(jogos, modelo):
+    jogos['f_2'] = jogos.HomeTeam.apply(lambda x: data[data.HomeTeam == x].FTHG.mean() ** 2)
+    jogos['f_1'] = jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTHG.mean())
+    na_f1 = jogos[jogos.f_1.isnull() == True]
+    na_f2 = jogos[jogos.f_2.isnull() == True]
+    na = pd.concat([na_f1,na_f2],ignore_index=True)
+    na.drop(['f_1','f_2'],axis=1,inplace=True)
+    jogos.dropna(inplace=True, axis=0)
+    mybook = pd.concat([data, jogos], ignore_index=True)
 
     X = mybook[['HomeTeam', 'AwayTeam', 'f_2']]
 
-    x = pipe.fit_transform(X)[-1]
+    x = pipe.fit_transform(X)[-len(jogos):]
 
     model = joblib.load(modelo)
 
-    y_pred = model.predict(x.reshape(1,-1))
+    y_pred = model.predict(x)
 
-    return y_pred[0]
+    return y_pred , na

@@ -13,7 +13,7 @@ def bet():
 
     for i in range(jogos.shape[0]):
         try:
-            p.append(predict(jogos.Home[i], jogos.Away[i], 'model_svc.pkl.z'))
+            p.append(predict(jogos.Home[i], jogos.Away[i], 'model_log.pkl.z'))
         except:
             p.append(None)
 
@@ -28,10 +28,10 @@ def bet():
         elif y == 1 and x < 2:
             aposta.append('Lay')
         else:
-            aposta.append(None)
+            aposta.append('-')
 
     jogos['Aposta'] = aposta
-    jogos['Previsão'] = jogos['Previsão'].map({0:'CASA GANHA',1:'CASA NÃO GANHA'})
+    jogos['Previsão'] = jogos['Previsão'].map({0:'NoH',1:'H'})
 
     return jogos.to_html()
 
@@ -45,7 +45,7 @@ def aposta():
         <center><table>
                  {}
         </table></center>
-        <center> por Bruno Brasil</center>
+        <center> Versão 1.0 por Bruno Brasil</center>
         </body>""".format(html)
 
 if __name__ == '__main__':

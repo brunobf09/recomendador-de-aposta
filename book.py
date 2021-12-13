@@ -1,107 +1,49 @@
-times ={
-  'Coritiba':'Coritiba',
-  'Corinthians':'Corinthians',
-  'Palmeiras':'Palmeiras',
-  'Fluminense':'Fluminense',
-  'Internacional':'Internacional',
-  'Cruzeiro':'Cruzeiro',
-  'Sport Recife':'Sport Recife',
-  'Bahia':'Bahia',
-  'Vasco':'Vasco',
-  'Portuguesa':'Portuguesa',
-  'Chapecoense-SC':'Chapecoense',
-  'Ponte Preta':'Ponte Preta',
-  'Fortaleza':'Fortaleza',
-  'Figueirense':'Figueirense',
-  'Santos':'Santos',
-  'Bragantino':'Bragantino',
-  'CSA':'CSA',
-  'Santa Cruz':'Santa Cruz',
-  'Joinville':'Joinville',
-  'Juventude':'Juventude',
-  'Flamengo RJ':'Flamengo',
-  'Atletico-MG':'Atlético-MG',
-  'Sao Paulo': 'São Paulo',
-  'Gremio': 'Grêmio',
-  'Botafogo RJ': 'Botafogo',
-  'Atletico-PR': 'Athletico-PR',
-  'Vitoria': 'Vitória',
-  'Goias':'Goiás',
-  'Ceara':'Ceará',
-  'Atletico GO': 'Atlético-GO',
-  'Avai': 'Avaí',
-  'Athletico-PR': 'Athletico-PR',
-  'America MG': 'América-MG',
-  'Nautico':'Náutico',
-  'Criciuma':'Criciúma',
-  'Parana':'Paraná',
-  'Cuiaba': 'Cuiabá'}
 import pandas as pd
-import numpy as np
-from sklearn import preprocessing
-from scipy.sparse import hstack
-from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
 import joblib
 
-book = pd.read_csv('https://www.football-data.co.uk/new/BRA.csv')
-book.drop(['Time', 'PH', 'PD', 'PA', 'MaxH', 'MaxD', 'MaxA'], axis=1, inplace=True)
-book.dropna(inplace=True)  # Chape vs Atletico Mg em 2016 teve um W.O.
-book.Home = book.Home.map(times)
-book.Away = book.Away.map(times)
-book.reset_index(drop=True)
 
+book = pd.read_csv('/content/Europa.csv')
+df = pd.read_excel('https://www.football-data.co.uk/mmz4281/2122/all-euro-data-2021-2022.xlsx',sheet_name=None)
+df = pd.concat(df,ignore_index=True)
+df = df[['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR','B365H', 'B365D', 'B365A']]
+df.fillna(0,inplace=True)
+data = pd.concat([book,df],ignore_index=True)
+
+numeric = ['f_2']
+categorical = ['HomeTeam', 'AwayTeam']
+
+class Columns(BaseEstimator, TransformerMixin):
+    def __init__(self, names=None):
+        self.names = names
+
+    def fit(self, X, y=None, **fit_params):
+        return self
+
+    def transform(self, X):
+        return X[self.names]
+
+pipe = Pipeline([
+    ("features", FeatureUnion([
+        ('categorical', make_pipeline(Columns(names=categorical), OneHotEncoder(sparse=False))),
+        ('numeric', make_pipeline(Columns(names=numeric), StandardScaler()))
+
+    ]))
+])
 
 def predict(home, away, modelo):
-    mybook = pd.concat([book, pd.DataFrame([[home, away]], columns=['Home', 'Away'])], ignore_index=True)
+    mybook = pd.concat([data, pd.DataFrame([[home, away]], columns=['HomeTeam', 'AwayTeam'])], ignore_index=True)
+    mybook.f_2[mybook.shape[0]-1] = mybook[mybook.HomeTeam == home].FTHG.mean()**2
 
-    # Criando colunas com média de gols
-    mybook['MediagolsH'] = 0
-    mybook['MediagolsA'] = 0
+    X = mybook[['HomeTeam', 'AwayTeam', 'f_2']]
 
-    # loop com a crianção da média de gols antes da ocorrência do jogo
-    for time in mybook.Home.unique():
-        i = mybook[mybook['Home'] == time].index.tolist()
-        mediagols = mybook[mybook['Home'] == time].HG.cumsum() / (
-                    mybook[mybook['Home'] == time].reset_index(drop=True).index + 1)
-        mediagols = [0] + mediagols.tolist()[:-1]
-        mediagols = pd.Series(mediagols, index=i)
-        mybook.MediagolsH[i] = mediagols
-
-    for time in mybook.Away.unique():
-        i = mybook[mybook['Away'] == time].index.tolist()
-        mediagols = mybook[mybook['Away'] == time].AG.cumsum() / (
-                    mybook[mybook['Away'] == time].reset_index(drop=True).index + 1)
-        mediagols = [0] + mediagols.tolist()[:-1]
-        mediagols = pd.Series(mediagols, index=i)
-        mybook.MediagolsA[i] = mediagols
-
-    mybook['g_3'] = mybook.MediagolsH.apply(lambda x: x ** 2)
-    X = mybook[['Home', 'Away', 'g_3']]
-    # Lidando com dados categóricos com OneHotEnconder e padronizado valores numéricos
-    # dados em array
-    std = preprocessing.StandardScaler()
-
-    # separando dados numéricos
-    a = X.drop(['Home', 'Away'], axis=1).values
-
-    # separando dados categóricos
-    features = [f for f in X.columns if f in (['Home', 'Away'])]
-
-    # preprocessando dados categóricos no formato sparse matrix
-    ohe = preprocessing.OneHotEncoder(sparse=True)
-    X = ohe.fit_transform(X[features])
-
-    # Adicionando dados numéricos padronizados
-    dados_std = std.fit_transform(a)
-
-    # Inserindo dentro da matriz
-
-    X = hstack([X, dados_std])
-    X = X.tocsr()[-1]
+    x = pipe.fit_transform(X)[-1]
 
     model = joblib.load(modelo)
 
-    y_pred = model.predict(X)
-    y_prob = model.predict_proba(X)
+    y_pred = model.predict(x.reshape(1,-1))
 
-    return y_pred[0], round(1 / y_prob[0][0], 2)
+    return y_pred[0]

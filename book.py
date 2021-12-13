@@ -38,6 +38,10 @@ pipe = Pipeline([
 def predict(jogos, modelo):
     jogos['f_2'] = jogos.HomeTeam.apply(lambda x: data[data.HomeTeam == x].FTHG.mean() ** 2)
     jogos['f_1'] = jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTHG.mean())
+    na_f1 = jogos[jogos.f_1.isnull() == True]
+    na_f2 = jogos[jogos.f_2.isnull() == True]
+    na = pd.concat([na_f1,na_f2],ignore_index=True)
+    na.drop(['f_1','f_2'],axis=1,inplace=True)
     jogos.dropna(inplace=True, axis=0)
     mybook = pd.concat([data, jogos], ignore_index=True)
 
@@ -49,4 +53,4 @@ def predict(jogos, modelo):
 
     y_pred = model.predict(x)
 
-    return y_pred
+    return y_pred , na

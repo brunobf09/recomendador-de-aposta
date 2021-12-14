@@ -18,11 +18,11 @@ link = "https://www.betfair.com/exchange/plus/pt/futebol/"
 driver.get(link)
 
 while (len(driver.find_elements(By.ID,"onetrust-accept-btn-handler"))) < 1:
-    sleep(0.5)
+    sleep(0.35)
 
 accept = driver.find_element(By.ID,"onetrust-accept-btn-handler")
 accept.click()
-sleep(1)
+sleep(0.5)
 
 teams = []
 under_over = []
@@ -31,7 +31,7 @@ odds_events = []
 for l in league:
     driver.get(link + l)
     while (len(driver.find_elements(By.CLASS_NAME, 'bet-button-price'))) < 1:
-        sleep(0.5)
+        sleep(0.35)
 
     for odds in driver.find_elements(By.CLASS_NAME, 'bet-button-price'):
         odds_events.append(odds.text)

@@ -22,7 +22,6 @@ while (len(driver.find_elements(By.ID,"onetrust-accept-btn-handler"))) < 1:
 
 accept = driver.find_element(By.ID,"onetrust-accept-btn-handler")
 accept.click()
-sleep(0.5)
 
 teams = []
 under_over = []
@@ -49,9 +48,7 @@ betfair = {'HomeTeam':home,
            'Odd_Betfair':odd}
 
 betfair_df = pd.DataFrame(betfair)
-
 times = json.load(open('times.json'))
 betfair_df.HomeTeam = betfair_df.HomeTeam.map(times)
 betfair_df.AwayTeam = betfair_df.AwayTeam.map(times)
-
 betfair_df.to_json('betfair')

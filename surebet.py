@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 from time import sleep
 import pandas as pd
+import json
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
@@ -38,17 +39,19 @@ for l in league:
         teams.append(team.text)
 
 driver.quit()
-#
+
 odd = odds_events[::6]
 home = teams[::2]
 away = teams[1::2]
-#
-#
+
 betfair = {'HomeTeam':home,
            'AwayTeam':away,
            'Odd_Betfair':odd}
-#
-#
+
 betfair_df = pd.DataFrame(betfair)
-#
+
+times = json.load(open('times.json'))
+betfair_df.HomeTeam = betfair_df.HomeTeam.map(times)
+betfair_df.AwayTeam = betfair_df.AwayTeam.map(times)
+
 betfair_df.to_json('betfair')

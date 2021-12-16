@@ -1,5 +1,5 @@
 from flask import Flask
-#import surebet
+from surebet import scrapy
 from book import predict
 import pandas as pd
 
@@ -7,7 +7,6 @@ app = Flask(__name__)
 
 def bet():
     jogos = pd.read_json('betfair')
-
     jogos['Previsão'] , na = predict(jogos,'model_log.pkl.z')
     jogos = jogos[['HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
 
@@ -27,10 +26,13 @@ def bet():
 
     return jogos.to_html()
 
-jogos = bet()
-
 @app.route('/')
-def aposta():
+def index():
+    return 'Index Page'
+
+@app.route('/pag1')
+def pag1():
+    scrapy(['bélgica-first-division-a-apostas-89979'])
     html = bet()
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>

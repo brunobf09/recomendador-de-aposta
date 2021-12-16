@@ -5,23 +5,24 @@ from time import sleep
 import pandas as pd
 import json
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
-driver =webdriver.Chrome('chromedriver', chrome_options=chrome_options)
-
-link = "https://www.betfair.com/exchange/plus/pt/futebol/"
-
-driver.get(link)
-
-while (len(driver.find_elements(By.ID,"onetrust-accept-btn-handler"))) < 1:
-    sleep(0.3)
-
-accept = driver.find_element(By.ID,"onetrust-accept-btn-handler")
-accept.click()
-
 def scrapy(league):
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    driver =webdriver.Chrome('chromedriver', chrome_options=chrome_options)
+
+    link = "https://www.betfair.com/exchange/plus/pt/futebol/"
+
+    driver.get(link)
+
+    while (len(driver.find_elements(By.ID,"onetrust-accept-btn-handler"))) < 1:
+        sleep(0.3)
+
+    accept = driver.find_element(By.ID,"onetrust-accept-btn-handler")
+    accept.click()
+
     teams = []
     odds_events = []
 

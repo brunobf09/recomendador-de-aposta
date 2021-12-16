@@ -28,11 +28,15 @@ def bet():
 
 @app.route('/')
 def index():
-    return 'Index Page'
+    return """"<head><h1>Recomendador de Apostas</h1></head>
+        < body >
+        <h1> Ligas disponíveis: <h1>
+        <p>B1 - Liga Belga<p>"""
+    
 
-@app.route('/pag1')
+@app.route('/B1D1')
 def pag1():
-    scrapy(['bélgica-first-division-a-apostas-89979'])
+    scrapy(['bélgica-first-division-a-apostas-89979','alemanha-bundesliga-2-apostas-61]')
     html = bet()
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>

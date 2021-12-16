@@ -40,7 +40,7 @@ def index():
     
 
 @app.route('/B1D2')
-def pag1():
+def B1D2():
     scrapy(['bélgica-first-division-a-apostas-89979','alemanha-bundesliga-2-apostas-61'])
     html = bet()
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
@@ -52,7 +52,7 @@ def pag1():
         </body>""".format(html)
 
 @app.route('/I1P1')
-def pag2():
+def I1P1():
     scrapy(['itália-série-a-apostas-81,portugal-primeira-liga-apostas-99'])
     html = bet()
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
@@ -64,7 +64,7 @@ def pag2():
         </body>""".format(html)
 
 @app.route('/SC1T1')
-def pag2():
+def SC1T1():
     scrapy(['escócia-premiership-apostas-105,turquia-super-league-apostas-194215'])
     html = bet()
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>

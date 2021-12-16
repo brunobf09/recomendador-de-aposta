@@ -31,12 +31,41 @@ def index():
     return """"<head><h1>Recomendador de Apostas</h1></head>
         < body >
         <h1> Ligas disponíveis: <h1>
-        <p>B1 - Liga Belga<p>"""
+        <p>B1 - Liga Belga
+        D2 - Bundesliga 2
+        IT - Séria A italiana
+        P1 - Primeira Liga Portuguesa
+        SC1 - Premiership Escocesa
+        T1 - Liga 1 Turca<p>"""
     
 
-@app.route('/B1D1')
+@app.route('/B1D2')
 def pag1():
-    scrapy(['bélgica-first-division-a-apostas-89979','alemanha-bundesliga-2-apostas-61]')
+    scrapy(['bélgica-first-division-a-apostas-89979','alemanha-bundesliga-2-apostas-61'])
+    html = bet()
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 1.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/I1P1')
+def pag2():
+    scrapy(['itália-série-a-apostas-81,portugal-primeira-liga-apostas-99'])
+    html = bet()
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 1.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/SC1T1')
+def pag2():
+    scrapy(['escócia-premiership-apostas-105,turquia-super-league-apostas-194215'])
     html = bet()
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>

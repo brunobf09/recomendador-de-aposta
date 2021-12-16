@@ -36,7 +36,7 @@ def index():
         <p>I1 - Séria A Italiana </p>
         <p>P1 - Primeira Liga Portuguesa </p>
         <p>SC1 - Premiership Escocesa </p>
-        <p>T1 - Liga 1 Turca</p>
+        <p>T1 - Super Liga Turca</p>
         </body>"""
 
 @app.route('/B1')

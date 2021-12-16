@@ -28,9 +28,9 @@ def bet():
 
 @app.route('/')
 def index():
-    return """<head><h1>Recomendador de Apostas</h1></head>
-        < body >
-        <h2> Ligas disponíveis:</h2>
+    return """<head><Title>Recomendador de Apostas</><title/head>
+        <body>
+        <h1> Ligas disponíveis:</h1>
         <p>B1 - Liga Belga\n
         D2 - Bundesliga 2 Alemã\n
         IT - Séria A Italiana\n

@@ -25,6 +25,7 @@ def scrapy(league):
 
     teams = []
     odds_events = []
+    date = []
 
     for l in league:
         driver.get(link + l)
@@ -34,6 +35,8 @@ def scrapy(league):
             odds_events.append(odds.text)
         for team in driver.find_elements(By.CLASS_NAME, 'name'):
             teams.append(team.text)
+        for d in driver.find_elements(By.CLASS_NAME, 'label'):
+            date.append(d.text)
 
     driver.quit()
 
@@ -41,12 +44,12 @@ def scrapy(league):
     home = teams[::2]
     away = teams[1::2]
 
-    betfair = {'HomeTeam':home,
+    betfair = {'Date': date,
+               'HomeTeam':home,
                'AwayTeam':away,
                'Odd_Betfair':odd}
 
     betfair_df = pd.DataFrame(betfair)
-
     times = json.load(open('times.json'))
     betfair_df.HomeTeam = betfair_df.HomeTeam.map(times)
     betfair_df.AwayTeam = betfair_df.AwayTeam.map(times)

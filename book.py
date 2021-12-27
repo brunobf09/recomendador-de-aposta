@@ -1,10 +1,8 @@
 import pandas as pd
-from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import OneHotEncoder
+from scipy.sparse import csr_matrix
 from sklearn.preprocessing import StandardScaler
+import json
 import joblib
-
 
 book = pd.read_csv('Europa.csv')
 df = pd.read_excel('https://www.football-data.co.uk/mmz4281/2122/all-euro-data-2021-2022.xlsx',sheet_name=None)
@@ -12,45 +10,41 @@ df = pd.concat(df,ignore_index=True)
 df = df[['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR','B365H', 'B365D', 'B365A']]
 df.fillna(0,inplace=True)
 data = pd.concat([book,df],ignore_index=True)
+bias = json.load(open('bias.json'))
 
-numeric = ['f_2']
-categorical = ['HomeTeam', 'AwayTeam']
+def predict(jogos,modelo):
+  jogos['h5']  = jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTHG.mean()**2)
+  jogos['a3']  = jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTAG.mean()**2)
+  jogos['a5']  = jogos.HomeTeam.apply(lambda x: data[data.HomeTeam == x].FTAG.mean()**2)
+  jogos['h4']  = jogos.HomeTeam.apply(lambda x: data[data.HomeTeam == x].FTHG.mean()) * jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTHG.mean())
 
-class Columns(BaseEstimator, TransformerMixin):
-    def __init__(self, names=None):
-        self.names = names
+  bias = json.load(open('bias.json'))
+  m5 = []
+  for h,a in zip(jogos.HomeTeam,jogos.AwayTeam):
+    if h not in bias:
+      x = 1
+    else:
+      x = bias[h]
+    if a not in bias:
+      y = 1
+    else:
+      y = bias[a]
+    m5.append((x+y)/2)
 
-    def fit(self, X, y=None, **fit_params):
-        return self
-
-    def transform(self, X):
-        return X[self.names]
-
-pipe = Pipeline([
-    ("features", FeatureUnion([
-        ('categorical', make_pipeline(Columns(names=categorical), OneHotEncoder(sparse=True))),
-        ('numeric', make_pipeline(Columns(names=numeric), StandardScaler()))
-
-    ]))
-])
+  jogos['m5'] = m5 * jogos.h4
+  na_a5 = jogos[jogos.a5.isnull() == True]
+  na_a3 = jogos[jogos.a3.isnull() == True]
+  na = pd.concat([na_a5,na_a3],ignore_index=True)
+  na.drop(['a5','a3','h5','h4','m5'],axis=1,inplace=True)
+  jogos.dropna(inplace=True, axis=0)
 
 
-def predict(jogos, modelo):
-    jogos['f_2'] = jogos.HomeTeam.apply(lambda x: data[data.HomeTeam == x].FTHG.mean() ** 2)
-    jogos['f_1'] = jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTHG.mean())
-    na_f1 = jogos[jogos.f_1.isnull() == True]
-    na_f2 = jogos[jogos.f_2.isnull() == True]
-    na = pd.concat([na_f1,na_f2],ignore_index=True)
-    na.drop(['f_1','f_2'],axis=1,inplace=True)
-    jogos.dropna(inplace=True, axis=0)
-    mybook = pd.concat([data, jogos], ignore_index=True)
+  X = jogos[['m5','h5','a3','a5']]
+  std = StandardScaler()
+  X = std.fit_transform(X)
+  X = csr_matrix(X)
+  model = joblib.load(modelo)
 
-    X = mybook[['HomeTeam', 'AwayTeam', 'f_2']]
+  y_pred = model.predict(X)
 
-    x = pipe.fit_transform(X)[-len(jogos):]
-
-    model = joblib.load(modelo)
-
-    y_pred = model.predict(x)
-
-    return y_pred , na
+  return y_pred , na

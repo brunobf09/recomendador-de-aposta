@@ -5,16 +5,16 @@ import pandas as pd
 
 app = Flask(__name__)
 
-def bet():
+def bet(modelo, back=True):
     jogos = pd.read_json('betfair')
-    jogos['Previsão'] , na = predict(jogos,'model_log.pkl.z')
-    jogos = jogos[['HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
+    jogos['Previsão'] , na = predict(jogos,modelo)
+    jogos = jogos[['Date','HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
 
     aposta = []
     for x, y in zip(jogos.Odd_Betfair, jogos['Previsão']):
-        if y == 0 and x > 2:
-            aposta.append('-')
-        elif y == 1 and x < 2:
+        if back == True and y == 0:
+            aposta.append('Back')
+        elif y == 1:
             aposta.append('Lay')
         else:
             aposta.append('-')
@@ -31,84 +31,147 @@ def index():
     return """<head><title>Recomendador de Apostas</title></head>
         <body>
         <h2> Ligas disponíveis:</h2>
-        <p>B1 - Liga Belga </p>
-        <p>D2 - Bundesliga 2 Alemã </p>
-        <p>I1 - Séria A Italiana </p>
-        <p>P1 - Primeira Liga Portuguesa </p>
-        <p>SC1 - Premiership Escocesa </p>
-        <p>T1 - Liga 1 Turca</p>
+        <p><a href="http://127.0.0.1:5000/D1">  D1 - Bundesliga 1 Alemã </a></p>
+        <p><a href="http://127.0.0.1:5000/D2"> D2 - Bundesliga 2 Alemã </a></p>
+        <p><a href="http://127.0.0.1:5000/E1"> E1 - EFL Championship </a></p>
+        <p><a href="http://127.0.0.1:5000/E2"> E2 - Inglaterra Liga 1 </a></p>
+        <p><a href="http://127.0.0.1:5000/E3"> E3 - Inglaterra Liga 2 </a></p>
+        <p><a href="http://127.0.0.1:5000/EC"> EC - National League </a></p>
+        <p><a href="http://127.0.0.1:5000/I1">  I1 - Séria A Italiana </a></p>
+        <p><a href="http://127.0.0.1:5000/P1"> P1 - Primeira Liga Portuguesa </a></p>
+        <p><a href="http://127.0.0.1:5000/SC1"> SC1 - Premiership Escocesa </a></p>
+        <p><a href="http://127.0.0.1:5000/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
         </body>"""
 
-@app.route('/B1')
-def B1():
-    scrapy(['bélgica-first-division-a-apostas-89979'])
-    html = bet()
+#exemplo
+@app.route('/D1')
+def D1():
+    scrapy(['bundesliga-alemã-apostas-59'])
+    modelo = 'model_D1.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
                  {}
         </table></center>
-        <center> Versão 1.0 por Bruno Brasil</center>
+        <center> Versão 2.0 por Bruno Brasil</center>
         </body>""".format(html)
 
 @app.route('/D2')
 def D2():
     scrapy(['alemanha-bundesliga-2-apostas-61'])
-    html = bet()
+    modelo = 'model_D2.pkl.z'
+    html = bet(modelo, back=True)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
                  {}
         </table></center>
-        <center> Versão 1.0 por Bruno Brasil</center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/E1')
+def E1():
+    scrapy(['inglaterra-championship-apostas-7129730'])
+    modelo = 'model_E1.pkl.z'
+    html = bet(modelo, back=True)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/E2')
+def E2():
+    scrapy(['inglaterra-league-1-apostas-35'])
+    modelo = 'model_E2.pkl.z'
+    html = bet(modelo, back=True)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/E3')
+def E3():
+    scrapy(['inglaterra-league-two-apostas-37'])
+    modelo = 'model_E3.pkl.z'
+    html = bet(modelo, back=True)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/EC')
+def EC():
+    scrapy(['inglaterra-national-league-apostas-11086347'])
+    modelo = 'model_EC.pkl.z'
+    html = bet(modelo, back=True)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
         </body>""".format(html)
 
 @app.route('/I1')
 def I1():
     scrapy(['itália-série-a-apostas-81'])
-    html = bet()
+    modelo = 'model_I1.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
                  {}
         </table></center>
-        <center> Versão 1.0 por Bruno Brasil</center>
+        <center> Versão 2.0 por Bruno Brasil</center>
         </body>""".format(html)
 
 @app.route('/P1')
 def P1():
     scrapy(['portugal-primeira-liga-apostas-99'])
-    html = bet()
+    modelo = 'model_P1.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
                  {}
         </table></center>
-        <center> Versão 1.0 por Bruno Brasil</center>
+        <center> Versão 2.0 por Bruno Brasil</center>
         </body>""".format(html)
 
 @app.route('/SC1')
 def SC1():
     scrapy(['escócia-premiership-apostas-105'])
-    html = bet()
+    modelo = 'model_SC1.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
                  {}
         </table></center>
-        <center> Versão 1.0 por Bruno Brasil</center>
+        <center> Versão 2.0 por Bruno Brasil</center>
         </body>""".format(html)
 
-@app.route('/T1')
-def T1():
-    scrapy(['turquia-super-league-apostas-194215'])
-    html = bet()
+@app.route('/SP2')
+def SP2():
+    scrapy(['espanha-segunda-divisão-apostas-12204313'])
+    modelo = 'model_SP2.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
                  {}
         </table></center>
-        <center> Versão 1.0 por Bruno Brasil</center>
+        <center> Versão 2.0 por Bruno Brasil</center>
         </body>""".format(html)
 
 if __name__ == '__main__':

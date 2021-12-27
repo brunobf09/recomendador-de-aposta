@@ -31,16 +31,16 @@ def index():
     return """<head><title>Recomendador de Apostas</title></head>
         <body>
         <h2> Ligas disponíveis:</h2>
-        <p><a href="http://127.0.0.1:5000/D1">  D1 - Bundesliga 1 Alemã </a></p>
-        <p><a href="http://127.0.0.1:5000/D2"> D2 - Bundesliga 2 Alemã </a></p>
-        <p><a href="http://127.0.0.1:5000/E1"> E1 - EFL Championship </a></p>
-        <p><a href="http://127.0.0.1:5000/E2"> E2 - Inglaterra Liga 1 </a></p>
-        <p><a href="http://127.0.0.1:5000/E3"> E3 - Inglaterra Liga 2 </a></p>
-        <p><a href="http://127.0.0.1:5000/EC"> EC - National League </a></p>
-        <p><a href="http://127.0.0.1:5000/I1">  I1 - Séria A Italiana </a></p>
-        <p><a href="http://127.0.0.1:5000/P1"> P1 - Primeira Liga Portuguesa </a></p>
-        <p><a href="http://127.0.0.1:5000/SC1"> SC1 - Premiership Escocesa </a></p>
-        <p><a href="http://127.0.0.1:5000/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/D1">  D1 - Bundesliga 1 Alemã </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/D2"> D2 - Bundesliga 2 Alemã </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/E1"> E1 - EFL Championship </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/E2"> E2 - Inglaterra Liga 1 </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/E3"> E3 - Inglaterra Liga 2 </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/EC"> EC - National League </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/I1">  I1 - Séria A Italiana </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/P1"> P1 - Primeira Liga Portuguesa </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/SC1"> SC1 - Premiership Escocesa </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
         </body>"""
 
 #exemplo

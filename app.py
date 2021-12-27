@@ -12,9 +12,9 @@ def bet(modelo, back=True):
 
     aposta = []
     for x, y in zip(jogos.Odd_Betfair, jogos['Previsão']):
-        if back == True and y == 0:
+        if back == True and y == 0 and x > 2:
             aposta.append('Back')
-        elif y == 1:
+        elif y == 1 and x < 2:
             aposta.append('Lay')
         else:
             aposta.append('-')

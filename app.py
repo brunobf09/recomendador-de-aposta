@@ -5,7 +5,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-def bet(modelo, back=True):
+def bet(modelo, back=True, lay=True):
     jogos = pd.read_json('betfair')
     jogos['Previsão'] , na = predict(jogos,modelo)
     jogos = jogos[['Date','HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
@@ -14,7 +14,7 @@ def bet(modelo, back=True):
     for x, y in zip(jogos.Odd_Betfair, jogos['Previsão']):
         if back == True and y == 0 and x > 2:
             aposta.append('Back')
-        elif y == 1 and x < 2:
+        elif lay == True and y == 1 and x < 2:
             aposta.append('Lay')
         else:
             aposta.append('-')
@@ -37,6 +37,7 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/E2"> E2 - Inglaterra Liga 1 </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/E3"> E3 - Inglaterra Liga 2 </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/EC"> EC - National League </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/I1">  I1 - Séria A Italiana </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/P1"> P1 - Primeira Liga Portuguesa </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
         </body>"""
@@ -46,7 +47,7 @@ def index():
 def D1():
     scrapy(['bundesliga-alemã-apostas-59'])
     modelo = 'model_D1.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -59,7 +60,7 @@ def D1():
 def D2():
     scrapy(['alemanha-bundesliga-2-apostas-61'])
     modelo = 'model_D2.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -72,7 +73,7 @@ def D2():
 def E1():
     scrapy(['inglaterra-championship-apostas-7129730'])
     modelo = 'model_E1.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -85,7 +86,7 @@ def E1():
 def E2():
     scrapy(['inglaterra-league-1-apostas-35'])
     modelo = 'model_E2.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -98,7 +99,7 @@ def E2():
 def E3():
     scrapy(['inglaterra-league-two-apostas-37'])
     modelo = 'model_E3.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -111,7 +112,20 @@ def E3():
 def EC():
     scrapy(['inglaterra-national-league-apostas-11086347'])
     modelo = 'model_EC.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo, back=False)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/I1')
+def I1():
+    scrapy(['itália-série-a-apostas-81'])
+    modelo = 'model_I1.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -124,7 +138,7 @@ def EC():
 def P1():
     scrapy(['portugal-primeira-liga-apostas-99'])
     modelo = 'model_P1.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -137,7 +151,7 @@ def P1():
 def SP2():
     scrapy(['espanha-segunda-divisão-apostas-12204313'])
     modelo = 'model_SP2.pkl.z'
-    html = bet(modelo, back=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>

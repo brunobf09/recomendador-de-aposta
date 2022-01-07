@@ -38,8 +38,8 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/E3"> E3 - Inglaterra Liga 2 </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/EC"> EC - National League </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/I1">  I1 - Séria A Italiana </a></p>
-        <p><a href="https://recomendador-de-aposta.herokuapp.com/P1"> P1 - Primeira Liga Portuguesa </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 - Liga 1 Turca </a></p>
         </body>"""
 
 #exemplo
@@ -134,10 +134,10 @@ def I1():
         <center> Versão 2.0 por Bruno Brasil</center>
         </body>""".format(html)
 
-@app.route('/P1')
-def P1():
-    scrapy(['portugal-primeira-liga-apostas-99'])
-    modelo = 'model_P1.pkl.z'
+@app.route('/I2')
+def I2():
+    scrapy(['itália-série-a-apostas-81'])
+    modelo = 'model_I2.pkl.z'
     html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
@@ -152,6 +152,20 @@ def SP2():
     scrapy(['espanha-segunda-divisão-apostas-12204313'])
     modelo = 'model_SP2.pkl.z'
     html = bet(modelo)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+
+@app.route('/T1')
+def T1():
+    scrapy(['turquia-1-lig-apostas-175680'])
+    modelo = 'model_T1.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>

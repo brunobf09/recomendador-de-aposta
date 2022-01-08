@@ -39,7 +39,7 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/EC"> EC - National League </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/I1">  I1 - Séria A Italiana </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
-        <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 - Liga 1 Turca </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 -Super Liga Turca </a></p>
         </body>"""
 
 #exemplo
@@ -163,7 +163,7 @@ def SP2():
 
 @app.route('/T1')
 def T1():
-    scrapy(['turquia-1-lig-apostas-175680'])
+    scrapy(['turquia-super-league-apostas-194215'])
     modelo = 'model_T1.pkl.z'
     html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>

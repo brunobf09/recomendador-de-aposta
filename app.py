@@ -38,6 +38,7 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/E3"> E3 - Inglaterra Liga 2 </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/EC"> EC - National League </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/I1">  I1 - Séria A Italiana </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/SC3"> SC3 - Segunda Divisão Escocesa </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 -Super Liga Turca </a></p>
         </body>"""
@@ -138,6 +139,19 @@ def I1():
 def I2():
     scrapy(['itália-série-a-apostas-81'])
     modelo = 'model_I2.pkl.z'
+    html = bet(modelo, back=False)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/SC3')
+def SC3():
+    scrapy(['escócia-league-2-apostas-111'])
+    modelo = 'model_SC3.pkl.z'
     html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>

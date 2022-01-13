@@ -8,7 +8,6 @@ app = Flask(__name__)
 def bet(modelo, back=True, lay=True):
     jogos = pd.read_json('betfair')
     jogos['Previsão'], na = predict(jogos, modelo)
-    jogos['Previsão'] , na = predict(jogos,modelo)
     jogos = jogos[['Date','HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
 
     aposta = []

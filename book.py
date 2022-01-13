@@ -1,6 +1,7 @@
 import pandas as pd
 from scipy.sparse import csr_matrix
 from sklearn.preprocessing import StandardScaler
+from xgboost import XGBClassifier
 import json
 import joblib
 
@@ -12,7 +13,7 @@ df.fillna(0,inplace=True)
 data = pd.concat([book,df],ignore_index=True)
 bias = json.load(open('bias.json'))
 
-def predict(jogos,modelo):
+def predict(jogos, modelo, xgb=False ):
   jogos['h5']  = jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTHG.mean()**2)
   jogos['a3']  = jogos.AwayTeam.apply(lambda x: data[data.AwayTeam == x].FTAG.mean()**2)
   jogos['a5']  = jogos.HomeTeam.apply(lambda x: data[data.HomeTeam == x].FTAG.mean()**2)
@@ -43,7 +44,11 @@ def predict(jogos,modelo):
   std = StandardScaler()
   X = std.fit_transform(X)
   X = csr_matrix(X)
-  model = joblib.load(modelo)
+  if xgb == True:
+    model = XGBClassifier()
+    model.load_model(modelo)
+  else:
+    model = joblib.load(modelo)
 
   y_pred = model.predict(X)
 

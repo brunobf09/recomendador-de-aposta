@@ -5,12 +5,9 @@ import pandas as pd
 
 app = Flask(__name__)
 
-def bet(modelo, back=True, lay=True, xgb=False):
+def bet(modelo, back=True, lay=True):
     jogos = pd.read_json('betfair')
-    if xgb == True:
-        jogos['Previsão'] , na = predict(jogos, modelo, xgb=True)
-    else:
-        jogos['Previsão'], na = predict(jogos, modelo)
+    jogos['Previsão'], na = predict(jogos, modelo)
     jogos['Previsão'] , na = predict(jogos,modelo)
     jogos = jogos[['Date','HomeTeam','AwayTeam','Previsão','Odd_Betfair']]
 

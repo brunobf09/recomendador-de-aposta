@@ -7,3 +7,5 @@ scikit-learn==1.0.1
 scipy==1.7.3
 selenium==4.1.0
 lightgbm==2.3.0
+openpyxl==3.0.9
+urllib3==1.26.7

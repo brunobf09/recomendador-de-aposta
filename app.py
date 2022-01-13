@@ -134,8 +134,8 @@ def E3():
 @app.route('/EC')
 def EC():
     scrapy(['inglaterra-national-league-apostas-11086347'])
-    modelo = 'model_EC.pkl.z'
-    html = bet(modelo, back=False)
+    modelo = 'model_EC.json'
+    html = bet(modelo, back=False, xgb=True)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -225,8 +225,8 @@ def SC3():
 @app.route('/SP1')
 def SP1():
     scrapy(['espanha-la-liga-apostas-117'])
-    modelo = 'model_SP1.pkl.z'
-    html = bet(modelo, back=False)
+    modelo = 'model_SP1.json'
+    html = bet(modelo, back=False, xbg=True)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>

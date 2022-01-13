@@ -131,7 +131,7 @@ def E3():
 def EC():
     scrapy(['inglaterra-national-league-apostas-11086347'])
     modelo = 'model_EC.json'
-    html = bet(modelo, back=False, xgb=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>
@@ -222,7 +222,7 @@ def SC3():
 def SP1():
     scrapy(['espanha-la-liga-apostas-117'])
     modelo = 'model_SP1.json'
-    html = bet(modelo, back=False, xbg=True)
+    html = bet(modelo)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>

@@ -53,7 +53,7 @@ def index():
 @app.route('/B1')
 def B1():
     scrapy(['bélgica-first-division-a-apostas-89979'])
-    modelo = 'model_B1.pkl.z'
+    modelo = 'https://www.dropbox.com/s/46bw863lr14bgb0/model_B1.pkl.z?dl=1'
     html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>

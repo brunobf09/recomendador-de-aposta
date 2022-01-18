@@ -53,7 +53,7 @@ def index():
     return """<head><title>Recomendador de Apostas</title></head>
         <body>
         <h2> Ligas disponíveis:</h2>
-        <p><a href="https://recomendador-de-aposta.herokuapp.com/tomorrow">  Jogos Amanhã </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/tomorrow-load">  Jogos Amanhã </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/B1">  B1 - Divisão A Belga </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/D1">  D1 - Bundesliga 1 Alemã </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/D2"> D2 - Bundesliga 2 Alemã </a></p>
@@ -73,7 +73,7 @@ def index():
 @app.route('/tomorrow-load')
 def tomorrow_load():
     data()
-    return "<p><a href="https://recomendador-de-aposta.herokuapp.com/tomorrow-view">Dados carregados com sucesso!</a></p>"
+    return """<p><a href="https://recomendador-de-aposta.herokuapp.com/tomorrow-view">Dados carregados com sucesso!</a></p>"""
     
 @app.route('/tomorrow-view')
 def tomorrow_view():

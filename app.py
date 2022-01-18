@@ -71,9 +71,8 @@ def index():
 
 @app.route('/tomorrow-load')
 def tomorrow_load():
-    print("loading...")
     data()
-    return "<p>Dados carregados com sucesso!</p>"
+    return "<p><a> href="https://recomendador-de-aposta.herokuapp.com/tomorrow-view">Dados carregados com sucesso!</a></p>"
     
 @app.route('/tomorrow-view')
 def tomorrow_view():

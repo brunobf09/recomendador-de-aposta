@@ -4,7 +4,7 @@ from sklearn.preprocessing import StandardScaler
 import json
 import joblib
 
-book = pd.read_csv('Europa.csv')
+book = pd.read_csv('https://www.dropbox.com/s/67nc28maycz4840/Europa.csv?dl=1')
 df = pd.read_excel('https://www.football-data.co.uk/mmz4281/2122/all-euro-data-2021-2022.xlsx',sheet_name=None)
 df = pd.concat(df,ignore_index=True)
 df = df[['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR','B365H', 'B365D', 'B365A']]

@@ -34,11 +34,12 @@ def bet2():
     jogos = jogos[['HomeTeam', 'AwayTeam', 'Previsão', 'Odd_Betfair', 'League']]
     aposta = []
     back = ["D1","D2","E1","E2","E3","EC","SC2","SP1","SP2"]
+    lay = ["B1","D1","D2","E1","E2","E3","EC","I2","N1","SC2","SC3","SP1","SP2","T1"]
 
     for x, y, b in zip(jogos.Odd_Betfair, jogos['Previsão'],jogos.League):
         if y == 0 and x > 2 and b in back:
             aposta.append('Back')
-        elif y == 1 and x < 2:
+        elif y == 1 and x < 2 and b in lay:
             aposta.append('Lay')
         else:
             aposta.append('-')
@@ -72,7 +73,7 @@ def index():
 @app.route('/tomorrow-load')
 def tomorrow_load():
     data()
-    return "<p><a> href="https://recomendador-de-aposta.herokuapp.com/tomorrow-view">Dados carregados com sucesso!</a></p>"
+    return "<p><a href="https://recomendador-de-aposta.herokuapp.com/tomorrow-view">Dados carregados com sucesso!</a></p>"
     
 @app.route('/tomorrow-view')
 def tomorrow_view():

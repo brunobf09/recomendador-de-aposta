@@ -28,32 +28,31 @@ def bet(modelo, back=True, lay=True):
 
     return jogos.to_html()
 
-def bet2():
-    jogos = pd.read_json('betfair_tw')
-    jogos['Previsão'] = predict2(jogos)
-    jogos = jogos[['HomeTeam', 'AwayTeam', 'Previsão', 'Odd_Betfair', 'League']]
-    aposta = []
-    back = ["D1","D2","E1","E2","E3","EC","SC2","SP1","SP2"]
-    lay = ["B1","D1","D2","E1","E2","E3","EC","I2","N1","SC2","SC3","SP1","SP2","T1"]
+# def bet2():
+#     jogos = pd.read_json('betfair_tw')
+#     jogos['Previsão'] = predict2(jogos)
+#     jogos = jogos[['HomeTeam', 'AwayTeam', 'Previsão', 'Odd_Betfair', 'League']]
+#     aposta = []
+#     back = ["D1","D2","E1","E2","E3","EC","SC2","SP1","SP2"]
+#     lay = ["B1","D1","D2","E1","E2","E3","EC","I2","N1","SC2","SC3","SP1","SP2","T1"]
 
-    for x, y, b in zip(jogos.Odd_Betfair, jogos['Previsão'],jogos.League):
-        if y == 0 and x > 2 and b in back:
-            aposta.append('Back')
-        elif y == 1 and x < 2 and b in lay:
-            aposta.append('Lay')
-        else:
-            aposta.append('-')
-    jogos = jogos[['League','HomeTeam','AwayTeam','Odd_Betfair']]
-    jogos['Aposta'] = aposta
+#     for x, y, b in zip(jogos.Odd_Betfair, jogos['Previsão'],jogos.League):
+#         if y == 0 and x > 2 and b in back:
+#             aposta.append('Back')
+#         elif y == 1 and x < 2 and b in lay:
+#             aposta.append('Lay')
+#         else:
+#             aposta.append('-')
+#     jogos = jogos[['League','HomeTeam','AwayTeam','Odd_Betfair']]
+#     jogos['Aposta'] = aposta
 
-    return jogos.to_html()
+#     return jogos.to_html()
 
 @app.route('/')
 def index():
     return """<head><title>Recomendador de Apostas</title></head>
         <body>
         <h2> Ligas disponíveis:</h2>
-        <p><a href="https://recomendador-de-aposta.herokuapp.com/tomorrow-load">  Jogos Amanhã </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/B1">  B1 - Divisão A Belga </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/D1">  D1 - Bundesliga 1 Alemã </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/D2"> D2 - Bundesliga 2 Alemã </a></p>
@@ -69,22 +68,6 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 -Super Liga Turca </a></p>
         </body>"""
-
-@app.route('/tomorrow-load')
-def tomorrow_load():
-    data()
-    return """<p><a href="https://recomendador-de-aposta.herokuapp.com/tomorrow-view">Dados carregados com sucesso!</a></p>"""
-    
-@app.route('/tomorrow-view')
-def tomorrow_view():
-    html = bet2()
-    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
-            <body>
-            <center><table>
-                     {}
-            </table></center>
-            <center> Versão 2.0 por Bruno Brasil</center>
-            </body>""".format(html)
 
 @app.route('/B1')
 def B1():

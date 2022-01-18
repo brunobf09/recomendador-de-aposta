@@ -69,9 +69,14 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 -Super Liga Turca </a></p>
         </body>"""
 
-@app.route('/tomorrow')
-def tomorrow():
+@app.route('/tomorrow-load')
+def tomorrow_load():
+    print("loading...")
     data()
+    return "<p>Dados carregados com sucesso!</p>"
+    
+@app.route('/tomorrow-view')
+def tomorrow_view():
     html = bet2()
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
             <body>
@@ -81,7 +86,7 @@ def tomorrow():
             <center> Versão 2.0 por Bruno Brasil</center>
             </body>""".format(html)
 
-
+@app.route('/B1')
 def B1():
     scrapy(['bélgica-first-division-a-apostas-89979'])
     modelo = 'model_B1.pkl.z'

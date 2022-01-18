@@ -67,7 +67,7 @@ def data():
     driver.get(link)
 
     while (len(driver.find_elements(By.ID, "onetrust-accept-btn-handler"))) < 1:
-        sleep(0.3)
+        sleep(0.2)
 
     driver.find_element(By.ID, "onetrust-accept-btn-handler").click()
 

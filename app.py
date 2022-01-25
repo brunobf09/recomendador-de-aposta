@@ -1,6 +1,6 @@
 from flask import Flask
-from surebet import scrapy,data
-from book import predict,predict2
+from surebet import scrapy
+from book import predict
 import pandas as pd
 
 

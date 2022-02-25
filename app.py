@@ -6,7 +6,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-def bet(modelo, back=True, lay=True):
+def bet(modelo, back=True, lay=True, back_inverse=False):
     jogos = pd.read_json('betfair')
     jogos['Previsão'], na = predict(jogos, modelo)
 
@@ -18,6 +18,8 @@ def bet(modelo, back=True, lay=True):
             aposta.append('Back')
         elif lay == True and y == 1 and x < 2:
             aposta.append('Lay')
+        elif back_inverse == True and y == 0 and x < 2:
+            aposta.append('Back')
         else:
             aposta.append('-')
 
@@ -62,6 +64,7 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/EC"> EC - National League </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/I2">  I2 - Séria B Italiana </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/N1">  N1 - Eredivisie Neerlandês </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/P1"> P1 - Primeira Liga Portuguesa </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SC2"> SC2 - Primeira Divisão Escocesa </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SC3"> SC3 - Segunda Divisão Escocesa </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP1"> SP1 - La Liga Espanhola </a></p>
@@ -204,6 +207,19 @@ def N1():
     scrapy(['holanda-eredivisie-apostas-9404054'])
     modelo = 'model_N1.pkl.z'
     html = bet(modelo, back=False)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/P1')
+def P1():
+    scrapy(['portugal-primeira-liga-apostas-99'])
+    modelo = 'model_P1.h5'
+    html = bet(modelo, back=False , back_inverse=True)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>

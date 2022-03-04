@@ -18,7 +18,6 @@ book2 = pd.concat(book2,ignore_index=True)
 book2 = book2[['Home', 'Away', 'HG', 'AG', 'Res']]
 book2.fillna(0,inplace=True)
 book2.columns = [['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR']]
-book2
 
 #Europa+Outros
 data = pd.concat([data,book2],ignore_index=True)

@@ -4,12 +4,24 @@ from sklearn.preprocessing import StandardScaler
 import json
 import joblib
 
+#Europa
 book = pd.read_csv('https://www.dropbox.com/s/67nc28maycz4840/Europa.csv?dl=1')
 df = pd.read_excel('https://www.football-data.co.uk/mmz4281/2122/all-euro-data-2021-2022.xlsx',sheet_name=None)
 df = pd.concat(df,ignore_index=True)
-df = df[['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR','B365H', 'B365D', 'B365A']]
+df = df[['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR']]
 df.fillna(0,inplace=True)
 data = pd.concat([book,df],ignore_index=True)
+
+#Outros
+book2 = pd.read_excel("https://www.football-data.co.uk/new/new_leagues_data.xlsx",sheet_name=None)
+book2 = pd.concat(book2,ignore_index=True)
+book2 = book2[['Home', 'Away', 'HG', 'AG', 'Res']]
+book2.fillna(0,inplace=True)
+book2.columns = [['HomeTeam', 'AwayTeam', 'FTHG', 'FTAG', 'FTR']]
+book2
+
+#Europa+Outros
+data = pd.concat([data,book2],ignore_index=True)
 bias = json.load(open('bias.json'))
 
 def predict(jogos,modelo):

@@ -72,6 +72,32 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 -Super Liga Turca </a></p>
         </body>"""
 
+@app.route('/A1')
+def A1():
+    scrapy(['argentina-copa-da-superliga-apostas-12225162'])
+    modelo = 'model_Argentina.pkl.z'
+    html = bet(modelo, back=False)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/A2')
+def A2():
+    scrapy(['áustria-bundesliga-apostas-10479956'])
+    modelo = 'model_Austria.pkl.z'
+    html = bet(modelo, back=False)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
 @app.route('/B1')
 def B1():
     scrapy(['bélgica-first-division-a-apostas-89979'])
@@ -272,6 +298,32 @@ def SP2():
     scrapy(['espanha-segunda-divisão-apostas-12204313'])
     modelo = 'model_SP2.pkl.z'
     html = bet(modelo)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/SW1')
+def SW1():
+    scrapy(['suécia-allsvenskan-apostas-129'])
+    modelo = 'model_Sweden.pkl.z'
+    html = bet(modelo, back=False)
+    return """<head><center><h1>Recomendador de Apostas</h1></head></center>
+        <body>
+        <center><table>
+                 {}
+        </table></center>
+        <center> Versão 2.0 por Bruno Brasil</center>
+        </body>""".format(html)
+
+@app.route('/SW2')
+def SW2():
+    scrapy(['suíça-challenge-league-apostas-133'])
+    modelo = 'model_Switzerland.pkl.z'
+    html = bet(modelo, back=False)
     return """<head><center><h1>Recomendador de Apostas</h1></head></center>
         <body>
         <center><table>

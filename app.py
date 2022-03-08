@@ -55,6 +55,8 @@ def index():
     return """<head><title>Recomendador de Apostas</title></head>
         <body>
         <h2> Ligas disponíveis:</h2>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/A1">  A1 - Copa da Superliga Argentina </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/A2">  A2 - Austria Bundesliga </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/B1">  B1 - Divisão A Belga </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/D1">  D1 - Bundesliga 1 Alemã </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/D2"> D2 - Bundesliga 2 Alemã </a></p>
@@ -69,6 +71,8 @@ def index():
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SC3"> SC3 - Segunda Divisão Escocesa </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP1"> SP1 - La Liga Espanhola </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/SP2"> SP2 - Segunda Divisão Espanhola </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/SW1"> SW1 - Allsvenskan Sueca </a></p>
+        <p><a href="https://recomendador-de-aposta.herokuapp.com/SW2"> SW2 - Challenge League Suíça </a></p>
         <p><a href="https://recomendador-de-aposta.herokuapp.com/T1"> T1 -Super Liga Turca </a></p>
         </body>"""
 
